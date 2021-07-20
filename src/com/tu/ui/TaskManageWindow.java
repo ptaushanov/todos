@@ -31,7 +31,7 @@ public class TaskManageWindow {
     public TaskManageWindow(String title, String actionText) {
         frame = new JFrame(title);
         frame.setContentPane(this.taskManagePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         actionButton.setText(actionText);
         importanceComboBox.addItem("ASAP");

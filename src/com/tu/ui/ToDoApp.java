@@ -2,6 +2,8 @@ package com.tu.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ToDoApp {
 
@@ -72,6 +74,18 @@ public class ToDoApp {
 
         taskList.setListData(products);
         taskList.setVisibleRowCount(8);
+        newButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TaskManageWindow newTasksWindow = new TaskManageWindow("Add Task", "Add");
+            }
+        });
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TaskManageWindow updateTasksWindow = new TaskManageWindow("Update Task", "Update");
+            }
+        });
     }
 
     public static void main(String[] args) {
