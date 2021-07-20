@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 public class LoginWindow {
     private final JFrame frame;
     private JPanel loginPanel;
-    private JTextField textField1;
-    private JPasswordField passwordField1;
-    private JLabel username;
-    private JLabel password;
+    private JTextField usernameInput;
+    private JPasswordField passwordInput;
+    private JLabel usernameLbl;
+    private JLabel passwordLbl;
     private JButton login;
     private JButton register;
 
@@ -31,6 +31,14 @@ public class LoginWindow {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 RegisterWindow register = new RegisterWindow();
+            }
+        });
+
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                ToDoApp app = new ToDoApp();
             }
         });
     }
