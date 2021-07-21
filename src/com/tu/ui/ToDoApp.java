@@ -86,6 +86,12 @@ public class ToDoApp {
                 TaskManageWindow updateTasksWindow = new TaskManageWindow("Update Task", "Update");
             }
         });
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TaskViewWindow taskView = new TaskViewWindow();
+            }
+        });
     }
 
     public static void main(String[] args) {

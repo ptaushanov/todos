@@ -28,7 +28,7 @@ public class TaskManageWindow {
     private JLabel minuteLbl;
     private JPanel dueDatePanel;
 
-    public TaskManageWindow(String title, String actionText) {
+    public TaskManageWindow(String title, String actionText) { // TODO: Add Optional task information
         frame = new JFrame(title);
         frame.setContentPane(this.taskManagePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
