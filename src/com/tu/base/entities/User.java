@@ -1,3 +1,5 @@
+package com.tu.base.entities;
+
 import java.util.List;
 
 public class User {
@@ -14,6 +16,8 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
+
 
     public String getUsername() {
         return username;

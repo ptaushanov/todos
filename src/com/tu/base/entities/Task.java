@@ -1,3 +1,5 @@
+package com.tu.base.entities;
+
 public class Task {
 
     private Integer id;
