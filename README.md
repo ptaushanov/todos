@@ -61,5 +61,3 @@ https://dev.mysql.com/downloads/installer
 
 This project is licensed under the MIT License - *see
 the* [LICENSE.md](https://github.com/ptaushanov/todos/blob/development/LICENSE) *file for details.*
-
-
