@@ -47,12 +47,12 @@ https://dev.mysql.com/downloads/installer
   (Path: setup/mysql/setup.sql)
 
 * Configure the host, port, username and password in the config file 
-    Open file ... (Path: ...)
-    Replace ... with the host
-    Replace ... with the port
-    Replace ... with the username
-    Replace ... with the password
-    Save the changes
+    * Open file ... (Path: ...)
+    * Replace ... with the host
+    * Replace ... with the port
+    * Replace ... with the username
+    * Replace ... with the password
+    * Save the changes
 
 ## Running the project
     ...
