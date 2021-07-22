@@ -41,6 +41,24 @@ public class TaskService {
         }
     }
 
+    public void editTask(Integer id, String tittle, String description, String importance ) throws TaskNotFoundException {
+
+        Task task = taskList.stream().filter(t -> t.getId().equals(id)).findFirst().orElseThrow(TaskNotFoundException::new);
+        task.setTittle(tittle);
+        task.setDescription(description);
+        task.setImportance(importance);
+
+    }
+
+    public void editTask(Integer id, String tittle, String description, String importance, LocalDateTime dueDate ) throws TaskNotFoundException {
+
+        Task task = taskList.stream().filter(t -> t.getId().equals(id)).findFirst().orElseThrow(TaskNotFoundException::new);
+        task.setTittle(tittle);
+        task.setDescription(description);
+        task.setImportance(importance);
+        task.setDueDate(dueDate);
+    }
+
     public String fullDescription(Integer id) throws TaskNotFoundException {
        return taskList.stream().filter(t -> t.getId().equals(id)).findFirst()
                 .orElseThrow(TaskNotFoundException::new).getDescription();
