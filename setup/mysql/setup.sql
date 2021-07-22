@@ -1,23 +1,24 @@
-CREATE DATABASE todos;
+CREATE DATABASE IF NOT EXISTS todo_project;
 
-USE todos;
+USE todo_project;
 
-# DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+	id INT NOT NULL AUTO_INCREMENT,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password varchar(255) NOT NULL,
+    PRIMARY KEY ( id )
 );
 
-# DROP TABLE IF EXISTS task;
-CREATE TABLE tasks (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NULL,
-    importance ENUM('ASAP', 'Verry High', 'High', 'Low', 'Verry low') NOT NULL,
-    dueDate DATETIME NULL,
-    
-    CONSTRAINT FOREIGN KEY `task_fk` (user_id) REFERENCES users(id)
+DROP TABLE IF EXISTS task;
+CREATE TABLE task (
+	id INT NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	subject NVARCHAR(255) NOT NULL,
+	content TEXT,
+	priority ENUM('Low', 'Medium', 'High') NOT NULL DEFAULT 'Medium',
+    due_date DATETIME,
+    PRIMARY KEY ( id ),
+    CONSTRAINT FOREIGN KEY `user_id_fk` (user_id) REFERENCES user(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
