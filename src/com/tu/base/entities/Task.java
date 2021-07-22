@@ -20,6 +20,7 @@ public class Task {
     }
 
     public Task(Integer id, String tittle, String description, String importance, User author) {
+        this.id = id;
         this.tittle = tittle;
         this.description = description;
         this.importance = importance;
@@ -27,6 +28,7 @@ public class Task {
     }
 
     public Task(Integer id, String tittle, String description, String importance, User author, LocalDateTime dueDate) {
+        this.id = id;
         this.tittle = tittle;
         this.description = description;
         this.importance = importance;
