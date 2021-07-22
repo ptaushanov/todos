@@ -1,5 +1,7 @@
 package com.tu.base.entities;
 
+import java.time.LocalDateTime;
+
 public class Task {
 
     private Integer id;
@@ -12,14 +14,24 @@ public class Task {
 
     private User author;
 
+    private LocalDateTime dueDate;
+
     public Task() {
     }
 
-    public Task(String tittle, String description, String importance, User author) {
+    public Task(Integer id, String tittle, String description, String importance, User author) {
         this.tittle = tittle;
         this.description = description;
         this.importance = importance;
         this.author = author;
+    }
+
+    public Task(Integer id, String tittle, String description, String importance, User author, LocalDateTime dueDate) {
+        this.tittle = tittle;
+        this.description = description;
+        this.importance = importance;
+        this.author = author;
+        this.dueDate = dueDate;
     }
 
     public Integer getId() {
@@ -60,5 +72,13 @@ public class Task {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 }
