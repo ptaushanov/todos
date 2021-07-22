@@ -9,7 +9,21 @@ import java.util.List;
 
 public class UserService {
 
-    public void register(List<User> userList, String username, String password) throws UserIsAlreadyExistException {
+    private List<User> userList;
+
+    public UserService(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public void register(String username, String password) throws UserIsAlreadyExistException {
 
         if(userList.stream().noneMatch(u -> u.getUsername().equals(username))){
             userList.add(new User(username, password));
@@ -18,12 +32,12 @@ public class UserService {
         }
     }
 
-    public User login(List<User> userList, String username, String password)throws UserNotFoundException {
+    public User login(String username, String password)throws UserNotFoundException {
         return userList.stream().filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
                 .findFirst().orElseThrow(UserNotFoundException::new);
     }
 
-    public List<Task> displayTasks(List<User> userList, String userName) throws UserNotFoundException {
+    public List<Task> displayTasks(String userName) throws UserNotFoundException {
         return userList.stream().filter(u -> u.getUsername().equals(userName))
                 .findFirst().orElseThrow(UserNotFoundException::new).getTasks();
     }
