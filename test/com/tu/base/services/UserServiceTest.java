@@ -1,18 +1,18 @@
 package com.tu.base.services;
 
 import com.tu.base.entities.User;
+import com.tu.base.exceptions.UserIsAlreadyExistException;
 import com.tu.base.exceptions.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class UserServiceTest {
-
-    private List<User> userList;
 
     private UserService userService;
 
@@ -24,12 +24,16 @@ public class UserServiceTest {
                 new User("Denis", "213")
         };
 
-        userService = new UserService(Arrays.asList(users));
+        userService = new UserService(new ArrayList<>(Arrays.asList(users)));
     }
 
     @Test
-    public void testRegister() {
+    public void testRegister() throws UserIsAlreadyExistException {
+        int size = userService.getUserList().size();
 
+        userService.register("Marko", "123");
+
+        assertEquals(userService.getUserList().size(), size + 1);
     }
 
     @Test(expected = UserNotFoundException.class)
