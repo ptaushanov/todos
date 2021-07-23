@@ -1,54 +1,31 @@
 package com.tu.ui;
 
+import com.tu.base.entities.Task;
+import com.tu.base.entities.User;
+import com.tu.base.exceptions.TaskNotFoundException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
+
+import static com.tu.base.Main.taskService;
 
 public class ToDoApp {
 
-    private static class Tasks {
-        private String taskName;
-        private String importance;
-
-        public Tasks(String taskName, String importance) {
-            this.taskName = taskName;
-            this.importance = importance;
-        }
-
-        public String getTaskName() {
-            return taskName;
-        }
-
-        public void setTaskName(String taskName) {
-            this.taskName = taskName;
-        }
-
-        public String getImportance() {
-            return importance;
-        }
-
-        public void setImportance(String importance) {
-            this.importance = importance;
-        }
-
-        @Override
-        public String toString() {
-            return "<html><br/>Task: " + taskName + "<br/>Importance: " + importance;
-        }
-    }
-
     private final JFrame frame;
     private JPanel mainPanel;
-    private JList<Tasks> taskList;
+    private JList<Task> taskList;
     private JScrollPane scrollPanel;
     private JButton newButton;
     private JButton deleteButton;
     private JButton updateButton;
-    private JButton refreshListButton;
     private JButton viewButton;
+    private JLabel usernameLbl;
+    private JButton refreshListButton;
 
-    public ToDoApp(){
+    public ToDoApp(User currentUser){
         frame = new JFrame("ToDo List");
         frame.setContentPane(this.mainPanel);
         frame.setMinimumSize(new Dimension(900, 500));
@@ -58,44 +35,60 @@ public class ToDoApp {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
 
+        usernameLbl.setText(currentUser.getUsername());
+        updateListOfTasks(currentUser);
+
         frame.setVisible(true);
 
-        Tasks[] products = new Tasks[10];
-        products[0] = new Tasks("Clean up the room!", "Low");
-        products[1] = new Tasks("Trow out the trash", "ASAP");
-        products[2] = new Tasks("Go to the vet for the dog", "High");
-        products[3] = new Tasks("Task 4", "High");
-        products[4] = new Tasks("Task 5", "High");
-        products[5] = new Tasks("Task 6", "High");
-        products[6] = new Tasks("Task 7", "High");
-        products[7] = new Tasks("Task 8", "High");
-        products[8] = new Tasks("Task 9", "High");
-        products[9] = new Tasks("Task 10", "High");
-
-        taskList.setListData(products);
         taskList.setVisibleRowCount(8);
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TaskManageWindow newTasksWindow = new TaskManageWindow("Add Task", "Add");
+                TaskManageWindow newTasksWindow = new TaskManageWindow("Add Task", "Add", currentUser.getId(), Optional.empty());
             }
         });
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TaskManageWindow updateTasksWindow = new TaskManageWindow("Update Task", "Update");
+                if(taskList.isSelectionEmpty()) return;
+
+                Task selectedTask = taskList.getSelectedValue();
+                TaskManageWindow updateTasksWindow = new TaskManageWindow("Update Task", "Update", currentUser.getId(), Optional.of(selectedTask));
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(taskList.isSelectionEmpty()) return;
+
+                Task selectedTask = taskList.getSelectedValue();
+                try {
+                    taskService.deleteTask(selectedTask.getId());
+                    updateListOfTasks(currentUser);
+                } catch (TaskNotFoundException taskNotFoundException) {
+                    JOptionPane.showMessageDialog(frame, "Task was not found", "Not found", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         viewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TaskViewWindow taskView = new TaskViewWindow();
+                if(taskList.isSelectionEmpty()) return;
+                Task selectedTask = taskList.getSelectedValue();
+                TaskViewWindow taskView = new TaskViewWindow(selectedTask);
+            }
+        });
+        refreshListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateListOfTasks(currentUser);
             }
         });
     }
 
-    public static void main(String[] args) {
-        ToDoApp app = new ToDoApp();
+    private void updateListOfTasks(User currentUser) {
+        taskList.setListData(taskService.displayUserTasks(currentUser.getId()).toArray(Task[]::new));
     }
+
 }
 

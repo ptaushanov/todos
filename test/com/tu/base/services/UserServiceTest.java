@@ -18,9 +18,9 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         User[] users = new User[]{
-                new User("Ivan", "123"),
-                new User("Bojan", "321"),
-                new User("Denis", "213")
+                new User(1, "Ivan", "123"),
+                new User(2, "Bojan", "321"),
+                new User(3, "Denis", "213")
         };
 
         userService = new UserService(new ArrayList<>(Arrays.asList(users)));
@@ -30,7 +30,7 @@ public class UserServiceTest {
     public void testRegister() throws UserIsAlreadyExistException {
         int size = userService.getUserList().size();
 
-        userService.register("Marko", "123");
+        userService.register(4, "Marko", "123");
 
         assertEquals(userService.getUserList().size(), size + 1);
     }
@@ -46,7 +46,5 @@ public class UserServiceTest {
         assertEquals(userService.login("Ivan", "123").getUsername(), "Ivan");
     }
 
-    @Test
-    public void testDisplayTasks() {
-    }
+
 }
