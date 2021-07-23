@@ -18,9 +18,9 @@ public class TaskServiceTest {
     @Before
     public void setUp() throws Exception {
         Task[] tasks = new Task[]{
-                new Task(1, "first", "description", "importance", new User("ivan", "123")),
-                new Task(2, "second", "description", "importance", new User("sasho", "123")),
-                new Task(3, "third", "description", "importance", new User("pesho", "123"))
+                new Task(1, "first", "description", "importance", 1),
+                new Task(2, "second", "description", "importance", 2),
+                new Task(3, "third", "description", "importance", 1)
         };
 
         taskService = new TaskService(new ArrayList<>(Arrays.asList(tasks)));
@@ -53,5 +53,9 @@ public class TaskServiceTest {
 
     @Test
     public void deleteTask() {
+    }
+
+    @Test
+    public void testDisplayTasks() {
     }
 }

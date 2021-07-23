@@ -1,6 +1,5 @@
 package com.tu.base.services;
 
-import com.tu.base.entities.Task;
 import com.tu.base.entities.User;
 import com.tu.base.exceptions.UserIsAlreadyExistException;
 import com.tu.base.exceptions.UserNotFoundException;
@@ -26,7 +25,7 @@ public class UserService {
     public void register(String username, String password) throws UserIsAlreadyExistException {
 
         if(userList.stream().noneMatch(u -> u.getUsername().equals(username))){
-            userList.add(new User(username, password));
+            userList.add(new User((int) Math.floor(Math.random() * Integer.MAX_VALUE), username, password));
         }else{
             throw new UserIsAlreadyExistException();
         }
@@ -35,10 +34,5 @@ public class UserService {
     public User login(String username, String password)throws UserNotFoundException {
         return userList.stream().filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
                 .findFirst().orElseThrow(UserNotFoundException::new);
-    }
-
-    public List<Task> displayTasks(String userName) throws UserNotFoundException {
-        return userList.stream().filter(u -> u.getUsername().equals(userName))
-                .findFirst().orElseThrow(UserNotFoundException::new).getTasks();
     }
 }

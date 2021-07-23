@@ -27,7 +27,7 @@ email, не е нужно username,
 Таблицата task се състои от:
 
 id
-user_id
+userId
 
 заглавие на задачата,
 съдържание, като съдържанието не е необходимо да се въвежда тъй като някои задачи могат да се състоят само от заглавие
@@ -39,8 +39,8 @@ user_id
 
 SELECT subject, content,priority, due_date
 FROM task
-INNER JOIN user ON user.id = task.user_id
-where user_id = 6
+INNER JOIN user ON user.id = task.userId
+where userId = 6
 order by due_date desc,priority desc
 LIMIT 0, 10;
 

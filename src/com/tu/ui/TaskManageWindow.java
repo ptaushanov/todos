@@ -1,9 +1,20 @@
 package com.tu.ui;
 
+import com.tu.base.entities.Task;
+import com.tu.base.exceptions.TaskIsAlreadyExist;
+import com.tu.base.exceptions.TaskNotFoundException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Optional;
+
+import static com.tu.base.Main.taskService;
 
 public class TaskManageWindow {
     private final JFrame frame;
@@ -28,17 +39,17 @@ public class TaskManageWindow {
     private JLabel minuteLbl;
     private JPanel dueDatePanel;
 
-    public TaskManageWindow(String title, String actionText) { // TODO: Add Optional task information
+    public TaskManageWindow(String title, String actionText, Integer userId, Optional<Task> currentTask) {
         frame = new JFrame(title);
         frame.setContentPane(this.taskManagePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         actionButton.setText(actionText);
-        importanceComboBox.addItem("ASAP");
-        importanceComboBox.addItem("Very High");
         importanceComboBox.addItem("High");
+        importanceComboBox.addItem("Medium");
         importanceComboBox.addItem("Low");
-        importanceComboBox.addItem("Very Low");
+
+        insertDataIntoForm(currentTask);
 
         dueDatePanel.setVisible(false);
 
@@ -55,9 +66,67 @@ public class TaskManageWindow {
                 frame.pack();
             }
         });
+
+        actionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    Date dueDate = null;
+                    if(dueDateCheckBox.isSelected()) {
+                        cal.set(Calendar.YEAR, Integer.parseInt(yearInput.getText()));
+                        cal.set(Calendar.MONTH, Integer.parseInt(monthInput.getText()));
+                        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayInput.getText()));
+                        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hourInput.getText()));
+                        cal.set(Calendar.MINUTE, Integer.parseInt(minuteInput.getText()));
+                        dueDate = cal.getTime();
+                    }
+
+                    if(currentTask.isEmpty()){
+                        taskService.createTask((int)Math.floor(Math.random() * Integer.MAX_VALUE),
+                                titleInput.getText(),
+                                descriptionTextarea.getText(),
+                                (String) importanceComboBox.getSelectedItem(),
+                                userId, dueDate);
+                    }
+                    else {
+                        taskService.editTask(currentTask.get().getId(),
+                                titleInput.getText(),
+                                descriptionTextarea.getText(),
+                                (String) importanceComboBox.getSelectedItem(),
+                                dueDate);
+                    }
+
+                    frame.dispose();
+                } catch (TaskIsAlreadyExist taskIsAlreadyExist) {
+                    JOptionPane.showMessageDialog(frame, taskIsAlreadyExist.getMessage(), "Task exists", JOptionPane.ERROR_MESSAGE);
+                } catch (TaskNotFoundException taskNotFoundException) {
+                    JOptionPane.showMessageDialog(frame, taskNotFoundException.getMessage(), "Missing task", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
-    public static void main(String[] args) {
-        TaskManageWindow taskManageWindow = new TaskManageWindow("Add Task", "Add");
+    private void insertDataIntoForm(Optional<Task> currentTask) {
+        if(currentTask.isPresent()) {
+            Task taskToUpdate = currentTask.get();
+            titleInput.setText(taskToUpdate.getTitle());
+            descriptionTextarea.setText(taskToUpdate.getDescription());
+            importanceComboBox.setSelectedItem(taskToUpdate.getImportance());
+
+            if(taskToUpdate.getDueDate() != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(taskToUpdate.getDueDate());
+
+                dueDateCheckBox.setSelected(true);
+
+                yearInput.setText(String.valueOf(cal.get(Calendar.YEAR)));
+                monthInput.setText(String.valueOf(cal.get(Calendar.MONTH)));
+                dayInput.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                hourInput.setText(String.valueOf(cal.get(Calendar.HOUR)));
+                minuteInput.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+            }
+        }
     }
+
 }

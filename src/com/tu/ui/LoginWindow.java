@@ -1,9 +1,15 @@
 package com.tu.ui;
 
+import com.tu.base.entities.User;
+import com.tu.base.exceptions.UserNotFoundException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static com.tu.base.Main.taskService;
+import static com.tu.base.Main.userService;
 
 public class LoginWindow {
     private final JFrame frame;
@@ -37,13 +43,14 @@ public class LoginWindow {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                ToDoApp app = new ToDoApp();
+                try {
+                    User currentUser = userService.login(usernameInput.getText(), String.valueOf(passwordInput.getPassword()));
+                    frame.dispose();
+                    ToDoApp app = new ToDoApp(currentUser);
+                } catch (UserNotFoundException userNotFoundException) {
+                    JOptionPane.showMessageDialog(frame, "The username or password is invalid", "Wrong credentials", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-    }
-
-    public static void main(String[] args) {
-        LoginWindow login = new LoginWindow();
     }
 }

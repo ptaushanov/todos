@@ -1,5 +1,7 @@
 package com.tu.ui;
 
+import com.tu.base.entities.Task;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,10 +20,15 @@ public class TaskViewWindow {
     private JLabel importanceTextLbl;
     private JLabel dueDateTextLbl;
 
-    public TaskViewWindow() {
+    public TaskViewWindow(Task selectedTask) {
         frame = new JFrame("Task info");
         frame.setContentPane(this.taskViewPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        titleTextLbl.setText(selectedTask.getTitle());
+        descriptionTextLbl.setText(selectedTask.getDescription());
+        importanceTextLbl.setText(selectedTask.getImportance());
+        dueDateTextLbl.setText(String.valueOf(selectedTask.getDueDate()));
 
         frame.pack();
 
@@ -35,9 +42,5 @@ public class TaskViewWindow {
                 frame.dispose();
             }
         });
-    }
-
-    public static void main(String[] args) {
-        TaskViewWindow taskView = new TaskViewWindow();
     }
 }

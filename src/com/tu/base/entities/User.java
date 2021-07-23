@@ -1,23 +1,28 @@
 package com.tu.base.entities;
 
-import java.util.List;
-
 public class User {
+    private Integer id;
     private String username;
-
     private String password;
-
-    private List<Task> tasks;
-
-    public User() {
-    }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    public User(Integer id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -35,11 +40,12 @@ public class User {
         this.password = password;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

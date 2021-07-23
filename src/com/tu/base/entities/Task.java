@@ -1,38 +1,33 @@
 package com.tu.base.entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Task {
 
     private Integer id;
-
-    private String tittle;
-
+    private String title;
     private String description;
-
     private String importance;
-
-    private User author;
-
-    private LocalDateTime dueDate;
+    private Integer userId;
+    private Date dueDate;
 
     public Task() {
     }
 
-    public Task(Integer id, String tittle, String description, String importance, User author) {
+    public Task(Integer id, String title, String description, String importance, Integer userId) {
         this.id = id;
-        this.tittle = tittle;
+        this.title = title;
         this.description = description;
         this.importance = importance;
-        this.author = author;
+        this.userId = userId;
     }
 
-    public Task(Integer id, String tittle, String description, String importance, User author, LocalDateTime dueDate) {
+    public Task(Integer id, String title, String description, String importance, Integer userId, Date dueDate) {
         this.id = id;
-        this.tittle = tittle;
+        this.title = title;
         this.description = description;
         this.importance = importance;
-        this.author = author;
+        this.userId = userId;
         this.dueDate = dueDate;
     }
 
@@ -44,12 +39,12 @@ public class Task {
         this.id = id;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -68,19 +63,24 @@ public class Task {
         this.importance = importance;
     }
 
-    public User getAuthor() {
-        return author;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public LocalDateTime getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    @Override
+    public String toString() {
+        return "<html><br/>Task: " + title + "<br/>Importance: " + importance;
     }
 }
